@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.direct.dao.IAppointmentDao">
+	<resultMap type="com.direct.entity.AppointmentEntity" id="Appointment">
+		<id column="a_Id" property="a_Id"/><!-- 主键 -->
+		<result column="a_time" property="a_time"/><!-- 普通字段 -->
+		<result column="a_Estimated_time" property="a_Estimated_time"/><!-- 普通字段 -->
+		<result column="a_type" property="a_type"/><!-- 普通字段 -->
+		<result column="a_remark" property="a_remark"/><!-- 普通字段 -->
+		<result column="a_state" property="a_state"/><!-- 普通字段 -->
+		<collection property="C_info" javaType="CustomerEntity" resultMap="CustomerMap" />
+	</resultMap>
+	<resultMap type="com.direct.entity.CustomerEntity" id="CustomerMap">
+		<id	column="C_Id" property="C_Id"/>
+		<result column="C_name" property="C_name"/>
+		<result column="C_sex" property="C_sex"/>
+		<result column="C_age" property="C_age"/>
+		<result column="C_place" property="C_place"/>
+		<result column="C_phone" property="C_phone"/>
+		<result column="C_Models" property="C_Models"/>
+		<result column="C_Email" property="C_Email"/>
+		<result column="C_emIP" property="C_emIP"/>
+		<result column="C_Balance" property="C_Balance"/>
+	</resultMap>
+	<select id="selectmentPage" resultMap="Appointment">
+		select * from appointment ap LEFT JOIN Customer cu on ap.C_Id=cu.C_Id 
+	</select>
+	
+	<insert id="addment" parameterType="com.direct.entity.AppointmentEntity">
+		INSERT INTO appointment(C_Id,a_time,a_Estimated_time,a_type,a_remark,a_state) VALUES (#{C_info.C_Id},#{a_time},#{a_Estimated_time},#{a_type},#{a_remark},#{a_state});
+		
+	</insert>
+	
+	<delete id="delment" parameterType="int">
+		delete from appointment where a_Id=#{eid}
+	</delete>
+	<update id="updment" parameterType="com.direct.entity.AppointmentEntity">
+		update appointment set  a_state=#{a_state} where a_Id=#{a_Id}
+	</update>
+	<select id="selectmentById" parameterType="int" resultMap="Appointment">
+		select * from appointment where a_Id=#{eid}
+	</select>
+</mapper>

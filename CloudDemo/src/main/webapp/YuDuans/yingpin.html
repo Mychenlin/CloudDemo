@@ -1,0 +1,538 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/common.css" rel="stylesheet"  type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<Link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery.min.1.8.2.js" type="text/javascript"></script>
+<script src="js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+<script src="js/common_js.js" type="text/javascript"></script>
+<script src="js/footer.js" type="text/javascript"></script>
+<script src="js/cityselect.js" type="text/javascript"></script>
+<script src="js/layer/layer.js" type="text/javascript"></script>
+<script src="js/laydate/laydate.js" type="text/javascript"></script>
+<title>招聘</title>
+<link rel="stylesheet" href="../backGround/layui1/layui/css/layui.css" />
+	<script type="text/javascript" src="../backGround/layui1/layui/layui.js"></script>
+	
+	<script type="text/javascript">
+		layui.use(['table','layer','form','laydate'],function(){
+			//初始化模块
+			//console.log("1");
+			var table=layui.table,$=layui.$,layer=layui.layer;
+			var laydate = layui.laydate;
+			var form = layui.form;
+			 var j = eval('('+parent.json+')');
+		        
+	        $("#ttq").text(j.post.pBId.bName);
+	        $("#ttq").val(j.bId); 
+	        $("#tt").val(j.post.pId);
+	        $("#tt").text(j.post.pName);
+			//绑定表格数据
+			table.render({
+				elem:'#tb',
+				url:'/CloudDemo/rec/show',
+				method:'post',
+				page:true,
+				limit:3,
+				limits:[3,6,9],
+				cols:[[
+					{field:'reId',title:'编号'},
+					{field:'post',title:'部门名称',templet:'<div>{{d.post.pBId.bName}}</div>',align:'center'},
+					{field:'post',title:'职位名称',templet:'<div>{{d.post.pName}}</div>',align:'center'},
+					{field:'post',title:'职位介绍',templet:'<div>{{d.post.pRemark}}</div>',align:'center'},
+					{field:'education',title:'学历',align:'center'},
+					{field:'start_time',title:'发布时间',align:'center'},
+					{field:'end_time',title:'截止时间',align:'center'},
+					{field:'salarymin',title:'薪资',templet: '<div>{{d.salarymin}}-{{d.salary_max}}</div>',align:'center'},
+					{field:'sum',title:'招聘人数',align:'center'},
+					{fixed:'right',title:'操作',toolbar:'#demo',align:'center'}
+				]]
+			});
+			
+			var cs=null;
+ 			$.ajax({
+			    type: "post",
+			     url:'/CloudDemo/backGround/json/dizisj.json',
+			    cache: false,
+			    dataType : "json",
+			    success: function(data){
+			    	$.each(data,function(index,item){
+			        	$("#quiz1").append('<option value='+item.name+'>'+item.name+'</option>');
+			        	$("#quiz4").append('<option value='+item.name+'>'+item.name+'</option>');
+			        	form.render('select'); //这个很重要
+		            })
+			    	
+               }
+           }); 
+
+ 			form.on('select(test)', function(){
+ 				  	cs=$(this).text();
+					$("#quiz2").empty();
+ 					$("#quiz2").append('<option value="">请选择市</option>');
+				   	$.ajax({
+				        url:'/CloudDemo/backGround/json/dizisj.json',
+				        dataType:'json',
+				        async: true ,
+				        success:function(data){
+				            $.each(data,function(index,item){
+				            	if(item.name==cs){
+				            		$.each(item.data,function(index,item){
+				            			
+				            			$("#quiz2").append('<option value='+item.name+'>'+item.name+'</option>');
+				            			form.render('select'); //这个很重要
+				            		})
+				            	}
+				            	
+				            })
+				        } 
+				   });
+ 				
+ 			});
+ 			
+
+
+ 			form.on('select(test3)', function(){
+ 				  	cs=$(this).text();
+					$("#quiz5").empty();
+ 					$("#quiz5").append('<option value="">请选择市</option>');
+				   	$.ajax({
+				        url:'/CloudDemo/backGround/json/dizisj.json',
+				        dataType:'json',
+				        async: true ,
+				        success:function(data){
+				            $.each(data,function(index,item){
+				            	if(item.name==cs){
+				            		$.each(item.data,function(index,item){
+				            			
+				            			$("#quiz5").append('<option value='+item.name+'>'+item.name+'</option>');
+				            			form.render('select'); //这个很重要
+				            		})
+				            	}
+				            	
+				            })
+				        } 
+				   });
+ 				
+ 			});
+ 			
+ 			form.on('select(test1)', function(){
+				 var dz=$(this).text();
+				 $("#quiz3").empty();
+				 $("#quiz3").append('<option value="">请选择县/区</option>');
+				   $.ajax({
+				        url:'/CloudDemo/backGround/json/dizisj.json',
+				        dataType:'json',
+				        async: true ,
+				        success:function(data){
+				            $.each(data,function(index,item){
+				            	if(item.name==cs){
+				            		$.each(item.data,function(index,item){
+				            			$.each(item.data,function(index,item){
+				            				
+				            				$("#quiz3").append('<option value='+item.name+'>'+item.name+'</option>');
+				            				form.render('select'); //这个很重要
+					            		})
+				            		})
+				            	}
+				            	
+				            })
+				        } 
+				   });
+				
+			});
+			
+ 			
+ 			
+ 			
+ 			form.on('select(test4)', function(){
+				 var dz=$(this).text();
+				 $("#quiz6").empty();
+				 $("#quiz6").append('<option value="">请选择县/区</option>');
+				   $.ajax({
+				        url:'/CloudDemo/backGround/json/dizisj.json',
+				        dataType:'json',
+				        async: true ,
+				        success:function(data){
+				            $.each(data,function(index,item){
+				            	if(item.name==cs){
+				            		$.each(item.data,function(index,item){
+				            			$.each(item.data,function(index,item){
+				            				
+				            				$("#quiz6").append('<option value='+item.name+'>'+item.name+'</option>');
+				            				form.render('select'); //这个很重要
+					            		})
+				            		})
+				            	}
+				            	
+				            })
+				        } 
+				   });
+				
+			});
+			
+ 			
+
+	       	//请求部门信息
+	       		$.ajax({
+			        url:'/CloudDemo/rec/showbm',
+			        dataType:'json',
+			        async: true,
+			        success:function(data){
+			        	$(data.data).each(function(i,q){
+			        		var $option = $("<option value='"+q.bId+"'>"+q.bName+"</option>");
+							
+							$option.appendTo($("#city1"));
+
+						});
+						form.render();
+			        	
+			        }
+			   }); 
+	       	
+	       		var category = 0;
+	            var categoryName = '';
+	       	  form.on('select(city1)', function(data){
+	       			category = data.value;
+               		 categoryName = data.elem[data.elem.selectedIndex].value;
+				    var zhi=categoryName;
+				   $.ajax({
+				        url:'../rec/post?post_id='+zhi,
+				        dataType:'json',
+				        async: true ,
+				        success:function(data){
+				        	$("#city").html("<option value=''>选择职位</option>");
+				        	
+				            $.each(data.data,function(index,item){
+				            	$('#city').append(new Option(item.pName,item.pId));
+					        	 form.render('select'); //这个很重要
+				            })
+				        } 
+				   });
+				});
+			
+	       	  
+	       	//监听表单提交
+				form.on('submit(add)',function(){
+					var formData=$("form").serialize();
+					
+					$.post("../appli/add",formData,function(res){
+						if(res>0){
+							layer.msg("申请发送成功",{time:2000},function(){
+								//重新加载表格
+								parent.layui.table.reload('tb');
+								//关闭当前弹层
+								var index = window.parent.layer.getFrameIndex(window.name);
+								window.parent.layer.close(index);
+							});
+						}else{
+							layer.msg("发布申请失败");
+						}
+					});
+					return false;
+				});
+	  			
+	       	  
+ 			laydate.render({
+			    elem: '#shijian'
+			   ,btns: ['confirm']
+ 	          ,theme: 'grid'
+ 	          ,trigger: 'click'
+			  });
+		});
+	</script>
+</head>
+
+<body>
+<form class="layui-form" action="">
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width:100px;">姓&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;名</label>
+		<div class="layui-input-block" style="margin-top: 20px; width:260px;">
+		  <input type="text" name="A_name" lay-verify="title" autocomplete="off" class="layui-input">
+		</div>
+	  </div>
+	  
+	  <div class="layui-form-item">
+		<label class="layui-form-label" style="width:100px;">身份证编号</label>
+		<div class="layui-input-block" style="margin-top: 20px; width:260px;">
+		  <input type="text" name="A_idcate" lay-verify="title" class="layui-input">
+		</div>
+	  </div>
+	  
+	  
+	<div class="layui-form-item">
+		<label class="layui-form-label" style="width:100px;">性&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;别</label>
+		<div class="layui-input-block">
+		  <input type="radio" name="A_sex" value="男" title="男" checked="">
+		  <input type="radio" name="A_sex" value="女" title="女">
+		</div>
+	  </div>
+	  
+	  <div class="layui-form-item">
+		<label class="layui-form-label" style="width:100px;">婚姻状况</label>
+		<div class="layui-input-block">
+		  <input type="radio" name="A_marital" value="未婚" title="未婚" checked="">
+		  <input type="radio" name="A_marital" value="已婚" title="已婚">
+		</div>
+	  </div>
+	  
+	  <div class="layui-form-item">
+		<label class="layui-form-label" style="width:100px;">政治面貌</label>
+		<div class="layui-input-block">
+		  <input type="radio" name="A_politics" value="党员" title="党员" checked="">
+		  <input type="radio" name="A_politics" value="团员" title="团员">
+		  <input type="radio" name="A_politics" value="群众" title="群众">
+		</div>
+	  </div>
+	  
+	  
+	  <div class="layui-form-item">
+	      <label class="layui-form-label" style="width:100px;">出生日期</label>
+	      
+	       <div class="layui-input-inline" style="margin-top: 20px; width:260px;">
+	        <input type="text" class="layui-input" name="A_birthday" id="shijian" placeholder="yyyy-MM-dd">
+	      </div>
+	    </div>
+	  
+
+<div class="layui-form-item">
+    <div class="layui-inline">
+      <label class="layui-form-label" style="width:100px;">手&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;机</label>
+      <div class="layui-input-inline" style="width:260px;">
+        <input type="tel" name="A_phone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-inline">
+      <label class="layui-form-label" style="width:100px;">电&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;话</label>
+      <div class="layui-input-inline" style="width:260px;">
+        <input type="tel" name="A_emIP" lay-verify="required|phone" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+    <div class="layui-inline">
+      <label class="layui-form-label" style="width:100px;">邮&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;箱</label>
+      <div class="layui-input-inline" style="width:260px;">
+        <input type="text" name="A_Email" lay-verify="email" autocomplete="off" class="layui-input">
+      </div>
+    </div>
+  </div>
+	  
+	  
+	  <div class="layui-form-item">
+		    
+			     <label class="layui-form-label" style="width:100px;">部门名称</label> 
+			     <div class="layui-input-block" style="width:260px;">
+			     <select lay-verify="required"  id="city1" lay-filter="city1">
+			     	 <option id="ttq" val></option>
+				     
+				      </select>
+			    </div>
+		  </div> 
+		<div class="layui-form-item">
+	    
+		    
+			     <label class="layui-form-label" style="width:100px;">职位名称</label> 
+			     <div class="layui-input-block" style="width:260px;">
+			     <select name="A_postss.pId" lay-verify="required"  id="city"  lay-filter="city">
+			     	 <option id="tt" ></option>
+				     
+				      </select>
+			    </div>
+		  </div>
+  		</div>
+	  <div class="layui-form-item" ><!-- style="margin-top: 20px; width:410px;" -->
+	    	 <div class="layui-inline">
+			    	 <label class="layui-form-label" style="width:100px;">学&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;历</label> 
+			    	 <div class="layui-input-block" style="margin-top: 20px; width:260px;">
+				     <select name="A_maxeducation" lay-verify="required"  id="city">
+				     	 <option id="education_t" value="高中">高中</option>
+				     	 <option id="education_t" value="大专">大专</option>
+				     	 <option id="education_t" value="本科">本科</option>
+				     	 <option id="education_t" value="硕士">硕士</option>
+				     	 <option id="education_t" value="博士">博士</option>
+					 </select>
+					 </div>
+			 <div class="layui-inline">		 
+					 <label class="layui-form-label" style="width:100px;">学&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;位</label> 
+			    	 <div class="layui-input-block" style="margin-top: 20px; width:260px;">
+				     <select name="A_maxdegree" lay-verify="required" >
+				     	 <option value="学士">学士</option>
+				     	 <option value="学士">硕士</option>
+				     	 <option  value="博士">博士</option>
+					 </select>
+			    </div>
+			    </div>
+		  </div>
+  		</div>
+		
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="width:100px;">贯&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;籍</label>
+    <div class="layui-input-inline" style="margin-top: 20px; width:260px;">
+      <select name="A_present" id="quiz1" lay-filter="test">
+        <option value="">请选择省</option>
+      </select>
+    </div>
+    <div class="layui-input-inline" style="margin-top: 20px; width:260px;">
+      <select name="A_present" id="quiz2" lay-filter="test1">
+        <option value="">请选择市</option>
+      </select>
+    </div>
+    <div class="layui-input-inline" style="margin-top: 20px; width:260px;">
+      <select name="A_present" id="quiz3">
+        <option value="">请选择县/区</option>
+      </select>
+    </div>
+  </div>
+  
+  
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="width:100px;">民&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;族</label>
+    <div class="layui-input-block" style="margin-top: 20px; width:260px;">
+		<select name="A_natio">
+			<option value="汉族">汉族</option>
+			<option value="蒙古族">蒙古族</option>
+			<option value="回族">回族</option>
+			<option value="藏族">藏族</option>
+			<option value="维吾尔族">维吾尔族</option>
+			<option value="苗族">苗族</option>
+			<option value="彝族">彝族</option>
+			<option value="壮族">壮族</option>
+			<option value="布依族">布依族</option>
+			<option value="朝鲜族">朝鲜族</option>
+			<option value="满族">满族</option>
+			<option value="侗族">侗族</option>
+			<option value="瑶族">瑶族</option>
+			<option value="白族">白族</option>
+			<option value="土家族">土家族</option>
+			<option value="哈尼族">哈尼族</option>
+			<option value="哈萨克族">哈萨克族</option>
+			<option value="傣族">傣族</option>
+			<option value="黎族">黎族</option>
+			<option value="傈僳族">傈僳族</option>
+			<option value="佤族">佤族</option>
+			<option value="畲族">畲族</option>
+			<option value="高山族">高山族</option>
+			<option value="拉祜族">拉祜族</option>
+			<option value="水族">水族</option>
+			<option value="东乡族">东乡族</option>
+			<option value="纳西族">纳西族</option>
+			<option value="景颇族">景颇族</option>
+			<option value="柯尔克孜族">柯尔克孜族</option>
+			<option value="土族">土族</option>
+			<option value="达斡尔族">达斡尔族</option>
+			<option value="仫佬族">仫佬族</option>
+			<option value="羌族">羌族</option>
+			<option value="布朗族">布朗族</option>
+			<option value="撒拉族">撒拉族</option>
+			<option value="毛南族">毛南族</option>
+			<option value="仡佬族">仡佬族</option>
+			<option value="锡伯族">锡伯族</option>
+			<option value="阿昌族">阿昌族</option>
+			<option value="普米族">普米族</option>
+			<option value="塔吉克族">塔吉克族</option>
+			<option value="怒族">怒族</option>
+			<option value="乌孜别克族">乌孜别克族</option>
+			<option value="俄罗斯族">俄罗斯族</option>
+			<option value="鄂温克族">鄂温克族</option>
+			<option value="德昂族">德昂族</option>
+			<option value="保安族">保安族</option>
+			<option value="裕固族">裕固族</option>
+			<option value="京族">京族</option>
+			<option value="塔塔尔族">塔塔尔族</option>
+			<option value="独龙族">独龙族</option>
+			<option value="鄂伦春族">鄂伦春族</option>
+			<option value="赫哲族">赫哲族</option>
+			<option value="门巴族">门巴族</option>
+			<option value="珞巴族">珞巴族</option>
+			<option value="基诺族">基诺族</option>
+		</select>
+		</div>
+  	</div>
+
+
+ <div class="layui-form-item">
+    <label class="layui-form-label" style="width:100px;">现居住地</label>
+    <div class="layui-input-inline" style="margin-top: 20px; width:260px;">
+      <select name="A_place" id="quiz4" lay-filter="test3">
+        <option value="">请选择省</option>
+      </select>
+    </div>
+    <div class="layui-input-inline" style="margin-top: 20px; width:260px;">
+      <select name="A_place" id="quiz5" lay-filter="test4">
+        <option value="">请选择市</option>
+      </select>
+    </div>
+    <div class="layui-input-inline" style="margin-top: 20px; width:260px;">
+      <select name="A_place" id="quiz6">
+        <option value="">请选择县/区</option>
+      </select>
+    </div>
+  </div>
+		
+		
+		
+  <div class="layui-form-item">
+    <label class="layui-form-label" style="width:100px;">血&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;型</label>
+    <div class="layui-input-block" style="margin-top: 20px; width:260px;">
+		<select lay-verify="A_blood" >
+				     	 <option >A型</option>
+				     	 <option >B型</option>
+				     	 <option >O型</option>
+				     	 <option >AB型</option>
+				     	 <option >其他</option>
+					 </select>
+		</div>
+		</div>
+		
+		
+		<div class="layui-form-item">
+		<label class="layui-form-label" style="width:100px;">期望工资</label>
+		<div class="layui-input-block" style="margin-top: 20px; width:260px;">
+		  <input type="text" name="A_salary"  class="layui-input" >
+		</div>
+	  </div>
+	  
+	 <div class="layui-form-item">
+    <label class="layui-form-label" style="width:100px;">英语等级</label>
+    <div class="layui-input-block" style="margin-top: 20px; width:260px;">
+		<select lay-verify="required"  name="A_Englist">
+				     	 <option >三级</option>
+				     	 <option >四级</option>
+				     	 <option >五级</option>
+				     	 <option >六级</option>
+				     	 <option >七级</option>
+				     	 <option >八级</option>
+					 </select>
+				</div>	 
+				 <label class="layui-form-label" style="width:100px;">计算机等级</label>
+				 <div class="layui-input-block" style="margin-top: 20px; width:260px;">
+					<select lay-verify="required" name="A_computer">
+				     	 <option >一级</option>
+				     	 <option >二级</option>
+				     	 <option >三级</option>
+				     	 <option >四级</option>
+					 </select>
+		</div>
+		</div>
+		
+		 <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label" style="width:100px;">学习经历</label>
+    <div class="layui-input-inline" style="margin-top: 20px; width:260px;">
+      <textarea placeholder="请输入内容" class="layui-textarea" name="A_Learning_experience"></textarea>
+    </div>
+  </div>
+   <div class="layui-form-item layui-form-text">
+    <label class="layui-form-label" style="width:100px;">工作经历</label>
+    <div class="layui-input-inline" style="margin-top: 20px; width:260px;">
+      <textarea placeholder="请输入内容" class="layui-textarea" name="A_Job_resume"></textarea>
+    </div>
+  </div>
+	  
+	  <div class="layui-input-block">
+	      <button class="layui-btn" lay-submit lay-filter="add">提交申请</button>
+	      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+	    </div>
+</form>
+
+</body>
+</html>

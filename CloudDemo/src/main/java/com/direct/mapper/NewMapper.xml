@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.direct.dao.NewsDao">
+  	<!-- 配置检索结果集时属性和字段的对应关系 -->
+  	<resultMap type="com.direct.entity.News" id="newMap">
+  		<id property="id" column="id"/><!-- 主键字段 -->	
+  		<result property="type" column="type"/><!-- 类型 -->
+  		<result property="title" column="title"/><!-- 标题 -->
+  		<result property="newtime" column="newtime"/><!-- 时间 -->
+  		<result property="content" column="content"/><!-- 内容 -->
+  		<result property="remark" column="remark"/><!-- 备注 -->
+  		<association property="sId" javaType="StaffionEntity" ><!--外键字段:员工Id（外键） -->
+				<id column="sId" property="sId"/><!-- 主键 -->
+				<result column="sName" property="sName"/>
+				<result column="sIP" property="sIP"/>
+				<result column="sPassword" property="sPassword"/>
+				<result column="sSex" property="sSex"/>
+				<result column="sBirthdate" property="sBirthdate"/>
+				<result column="sBasepay" property="sBasepay"/>
+				<result column="sSocial" property="sSocial"/>
+				<result column="sEntrytime" property="sEntrytime"/>
+				<result column="sDeparturetiome" property="sDeparturetiome"/>
+				<result column="sZZ" property="sZZ"/>
+				<result column="sZT" property="sZT"/>	 
+			</association> 
+  	</resultMap>
+	
+		<!-- 添加 -->
+	<insert id="insertNews" parameterType="News">
+	INSERT into News(sId,type,title,newtime,content,remark) VALUES(#{sId.sId},#{type},#{title},#{newtime},#{content},#{remark});
+	
+	</insert>
+	
+		<!-- 通过id查询员工-->
+	<select id="queryById" parameterType="int">
+	select * from News ni INNER JOIN t_staffion ts on ni.sId=ts.SId where ni.sId=#{id};
+	</select>
+	<!-- 修改 -->
+	<update id="updateNews" parameterType="com.direct.entity.News">
+		update News set  sId=#{sId.sId},type=#{type},title=#{title},newtime=#{newtime},content=#{content},remark=#{remark} where id=#{id}
+	</update>
+	
+	<!-- 删除 -->
+	<delete id="deleteNews" parameterType="int">
+		delete from News where id=#{id}
+	</delete>
+
+	
+	<!-- 分页查询员工(使用插件) -->
+	<select id="queryNews" resultMap="newMap">
+		select * from News ni inner join t_staffion ts on ni.sId=ts.SId
+	</select>
+
+  </mapper>

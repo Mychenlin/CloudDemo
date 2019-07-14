@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- 采购申请记录 -->
+<mapper namespace="com.direct.dao.IApplyInfoDao">
+	
+	<resultMap type="com.direct.entity.ApplyInfo" id="applyInfoMap">
+		<id property="appId" column="aId"/><!-- 主键 -->
+		<result   property="carNum" column="carNum"/><!-- 数量 -->
+		<association property="ci" javaType="CarInfo"><!-- 申请人 -->
+			
+		</association>
+		<association property="ae" javaType="ApplyEntity"><!-- 申请表实体 -->
+			<id property="aId" column="aId"/><!-- 主键 -->
+			<result   property="amountMoney" column="amountMoney"/><!-- 申请金额 -->
+			<result   property="actualMoney" column="actualMoney"/><!-- 实际支出 -->
+			<result   property="repaymentMoney" column="repaymentMoney"/><!-- 还款金额 -->
+			<result   property="applicationtime" column="applicationtime"/><!-- 申请时间 -->
+			<result   property="remark" column="remark"/><!-- 备注 -->
+			<result   property="state" column="state"/><!-- 状态 -->
+		</association>
+	</resultMap>
+	
+	<!-- 分页查询 -->
+
+<!-- 	<select id="selectApply" resultType="applyMap">
+	<select id="selectApplyInfo" resultMap="applyInfoMap">
+		
+	</select>
+	 -->
+	<!-- 添加申请 -->
+	<insert id="insertApplyInfo" parameterType="ApplyEntity">
+		
+	</insert>
+	
+</mapper>

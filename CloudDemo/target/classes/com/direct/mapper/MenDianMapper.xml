@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.direct.dao.IMenDianDao">
+  	<resultMap type="MenDianEntity" id="mendianMap">
+  		<id column="mId" property="mId"/><!-- 主键 -->
+		<result column="mName" property="mName"/><!-- 普通键 -->
+		<result column="mFname" property="mFname"/>
+		<result column="mIp" property="mIp"/>
+		<result column="mhtime" property="mhtime"/>
+		<result column="mZT" property="mZT"/>
+		<result column="mTzT" property="mTzT"/>
+		<result column="rRemark" property="rRemark"/>
+  	</resultMap>
+  	
+  	<!-- 分页 -->
+  	<select id="seleMend"  resultMap="mendianMap" parameterType="MenDianEntity">
+  		select * from t_mendian where 1=1
+  		<if test="mName!='' and mName!=null">
+  		 AND mName LIKE CONCAT(CONCAT('%',#{mName}),'%') 
+  		</if>
+  	</select>
+  	
+  	<!-- 添加 -->
+  	<insert id="interMenDian" parameterType="MenDianEntity">
+  		insert into t_mendian(mName,mFname,mIp,mhtime,mZT,mTzT,rRemark) values(#{mName},#{mFname},#{mIp},#{mhtime},#{mZT},#{mTzT},#{rRemark})
+  	</insert>
+ 		
+  	<!-- 修改 -->
+  	<update id="updateMenDian" parameterType="MenDianEntity">
+		update t_mendian set mName=#{mName},mFname=#{mFname},mIp=#{mIp},mTzT=#{mTzT},mZT=#{mZT} where mId=#{mId}
+  	</update>
+  
+  		
+  	<!-- 删除-->
+  	<update id="deleteMenDian" parameterType="MenDianEntity">
+  		update t_mendian set mZT=4 where mId=#{id}
+  	</update>
+  	
+  	<!-- 通过Id查询 -->
+  	<select id="seleMendById" resultMap="mendianMap" parameterType="int">
+  		select * from t_mendian where mId=#{id};
+  	</select>
+  	
+  	
+  <!-- 查询 -->
+  	<select id="seleMendss" resultMap="mendianMap" >
+  		select * from t_mendian WHERE mZT!=4
+  	</select>
+  	
+  </mapper>

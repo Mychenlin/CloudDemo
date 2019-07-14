@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.direct.dao.ISalarydao">
+  	<!-- 配置检索结果集时属性和字段的对应关系 -->
+  	<resultMap type="com.direct.entity.SalaryEnity" id="sasMap">
+  		<id property="sId" column="sId"/><!-- 主键字段 -->	
+  		<result property="merits" column="merits"/><!-- 普通字段：绩效 -->
+  		<result property="subsidy" column="subsidy"/><!-- 补贴 -->
+  		<result property="askingLeave" column="askingLeave"/><!-- 请假扣款 -->
+  		<result property="askingLate" column="askingLate"/><!-- 迟到扣款 -->
+  		<result property="askingUnpunched" column="askingUnpunched"/><!-- 未打卡扣款 -->
+  		<result property="askingRetirement" column="askingRetirement"/><!-- 早退扣款 -->
+  		<result property="askingAbsenteeism" column="askingAbsenteeism"/><!-- 旷工扣款 -->
+  		<result property="askingIndividual" column="askingIndividual"/><!-- 个税扣款-->
+  		<result property="amountMoney" column="amountMoney"/><!-- 应发金额 -->
+  		<result property="actualMOney" column="actualMOney"/><!-- 实发金额 -->
+  		<result property="totalCompany" column="totalCompany"/><!-- 公司总成本（五险一金) -->
+  		<result property="methodMoney" column="methodMoney"/><!-- 发放方式 -->
+  		<result property="paymenttime" column="paymenttime"/><!-- 发放时间 -->
+  		<association property="staId" javaType="StaffionEntity" ><!--外键字段:员工Id（外键） -->
+				<id column="sId" property="sId"/><!-- 主键 -->
+				<result column="sName" property="sName"/>
+				<result column="sIP" property="sIP"/>
+				<result column="sPassword" property="sPassword"/>
+				<result column="sSex" property="sSex"/>
+				<result column="sBirthdate" property="sBirthdate"/>
+				<result column="sBasepay" property="sBasepay"/>
+				<result column="sSocial" property="sSocial"/>
+				<result column="sEntrytime" property="sEntrytime"/>
+				<result column="sDeparturetiome" property="sDeparturetiome"/>
+				<result column="sZZ" property="sZZ"/>
+				<result column="sZT" property="sZT"/>	
+			</association>
+			
+			<association property="cashierId" javaType="StaffionEntity" ><!--外键字段:出纳人Id（外键） -->
+			<id column="sId" property="sId"/><!-- 主键 -->
+			<result column="sName" property="sName"/>
+			<result column="sIP" property="sIP"/>
+			<result column="sPassword" property="sPassword"/>
+			<result column="sSex" property="sSex"/>
+			<result column="sBirthdate" property="sBirthdate"/>
+			<result column="sBasepay" property="sBasepay"/>
+			<result column="sSocial" property="sSocial"/>
+			<result column="sEntrytime" property="sEntrytime"/>
+			<result column="sDeparturetiome" property="sDeparturetiome"/>
+			<result column="sZZ" property="sZZ"/>
+			<result column="sZT" property="sZT"/>	
+			</association>
+  	</resultMap>
+  	<!-- 添加员工薪资-->
+  	<insert id="insertSalary" parameterType="SalaryEnity">	
+	 insert into Salary(staId,merits,subsidy,askingLeave,askingLate,askingUnpunched,
+						askingRetirement,askingAbsenteeism,askingIndividual,amountMoney,
+						actualMOney,totalCompany,methodMoney,paymenttime,cashierId) 					
+				VALUES( #{staId.sId},#{merits},#{subsidy},#{askingLeave},#{askingLate},
+						#{askingUnpunched},#{askingRetirement},#{askingAbsenteeism},
+						#{askingIndividual},#{amountMoney},#{actualMOney},#{totalCompany},
+						#{methodMoney},#{paymenttime},#{cashierId.sId})
+  	</insert>
+  	
+  	<!-- 查看员工薪资 -->
+  	<select id="queryMoney" resultMap="sasMap">
+select  sr.sId,ts.sId,ts.sName,sr.merits,sr.subsidy,ts.sSocial,ts.sBasepay,sr.amountMoney,sr.actualMOney,
+sr.methodMoney,sr.paymenttime,sr.cashierId,sr.askingLeave,sr.askingLate,sr.askingUnpunched,sr.actualMOney from t_staffion ts INNER JOIN Salary sr on ts.sId=sr.staId ORDER BY sr.sId  ASC
+
+  	</select>
+  	
+  	<select id="queryMoneyByid" resultMap="sasMap" parameterType="int" >
+select  * from t_staffion ts INNER JOIN Salary sal on ts.sId=sal.staId where ts.sId=#{sId} 
+  	</select>
+  	
+  </mapper>

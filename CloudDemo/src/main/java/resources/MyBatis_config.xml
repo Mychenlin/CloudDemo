@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+  <configuration>
+  
+  <!-- 别名 -->
+	<typeAliases>
+		<package name="com.direct.entity"/>
+	</typeAliases>
+  <!-- 分页插件 -->
+	<plugins>
+		<plugin interceptor="com.github.pagehelper.PageInterceptor"></plugin>
+	</plugins>
+	
+  	
+  <!-- 关联接口的映射文件 -->
+	<mappers>
+
+	<!-- 	<mapper resource="com/direct/mapper/SalaryMapper.xml"/>
+		<mapper resource="com/direct/mapper/OtherMoney.xml"/>
+
+		<mapper resource="com/direct/mapper/CarMapper.xml"/> -->
+		<mapper resource="com/direct/mapper/RecruitmentMapper.xml"/>
+		<mapper resource="com/direct/mapper/ApplicationMapper.xml"/>
+		<mapper resource="com/direct/mapper/CustomerMapper.xml"/>
+		<mapper resource="com/direct/mapper/AppointmentMapper.xml"/>
+
+		<mapper resource="com/direct/mapper/CarMapper.xml"/>
+		<mapper resource="com/direct/mapper/BranchMapper.xml"/>
+		<mapper resource="com/direct/mapper/PositionMapper.xml"/>
+		<mapper resource="com/direct/mapper/StaffinfoMapper.xml"/>
+		<mapper resource="com/direct/mapper/LeaveRosterMapper.xml"/>
+		<mapper resource="com/direct/mapper/CompleaintsMapper.xml"/>
+		<mapper resource="com/direct/mapper/ApplyMapper.xml"/>
+		<mapper resource="com/direct/mapper/ApplyInfoMapper.xml"/>
+		
+		<mapper resource="com/direct/mapper/ZhiYuanMapper.xml"/>
+
+	</mappers>
+  	
+  </configuration>
+  
+  

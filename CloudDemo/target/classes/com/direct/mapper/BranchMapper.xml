@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.direct.dao.IBranchDao">
+  	<resultMap type="BranchEntity" id="branchMap">
+  		<id column="bId" property="bId"/><!-- 主键 -->
+		<result column="bName" property="bName"/><!-- 普通键 -->
+		<result column="bRemark" property="bRemark"/>
+		<result column="bZT" property="bZT"/>
+  	</resultMap>
+  	
+  	<!-- 分页 -->
+  	<select id="querpagebranch" parameterType="BranchEntity"  resultMap="branchMap">
+  		
+  		select * from t_branch where bZT=1
+  		<if test="bName!='' and bName!=null ">
+  			AND bName LIKE CONCAT(CONCAT('%',#{bName}),'%')
+  		</if>
+  	</select>
+  	
+  	<!-- 添加 -->
+  	<insert id="insertbranch" parameterType="BranchEntity">
+  		insert into t_branch(bName,bRemark) values(#{bName},#{bRemark})
+  	</insert>
+ 		
+  	<!-- 修改 -->
+  	<update id="updatebranch" parameterType="BranchEntity">
+		update t_branch set bName=#{bName},bRemark=#{bRemark} where bId=#{bId}
+  	</update>
+  		
+  	<!-- 删除-->
+  	<update id="deletebranch" parameterType="BranchEntity">
+  		update t_branch set bZT=0 where bId=#{bId}
+  	</update>
+  	
+  	<!-- 通过Id查询 -->
+  	<select id="querByIdbranch" resultMap="branchMap" parameterType="int">
+  		select * from t_branch where bId=#{bId};
+  	</select>
+  	
+  	<!-- 查询 -->
+  	<select id="querbranch" resultMap="branchMap">
+  		select * from t_branch where bZT=1
+  	</select>
+  	
+  	
+  </mapper>

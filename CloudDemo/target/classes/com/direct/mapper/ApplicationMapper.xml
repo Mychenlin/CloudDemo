@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.direct.dao.IApplicationDao">
+	<resultMap type="com.direct.entity.ApplicationEntity" id="Application">
+		<id column="A_id" property="A_id"/><!-- 主键 -->
+		<result column="A_name" property="A_name"/><!-- 普通字段 -->
+		<result column="A_sex" property="A_sex"/><!-- 普通字段 -->
+		<result column="A_birthday" property="A_birthday"/><!-- 普通字段 -->
+		<result column="A_phone" property="A_phone"/><!-- 普通字段 -->
+		<result column="A_Time" property="A_Time"/><!-- 普通字段 -->
+		<result column="A_salary" property="A_salary"/>
+		<result column="A_present" property="A_present"/>
+		<result column="A_natio" property="A_natio"/>
+		<result column="A_place" property="A_place"/>
+		<result column="A_blood" property="A_blood"/>
+		<result column="A_idcate" property="A_idcate"/>
+		<result column="A_marital" property="A_marital"/>
+		<result column="A_politics" property="A_politics"/>
+		<result column="A_maxeducation" property="A_maxeducation"/>
+		<result column="A_maxdegree" property="A_maxdegree"/>
+		<result column="A_Email" property="A_Email"/>
+		<result column="A_emIP" property="A_emIP"/>
+		<result column="A_Englist" property="A_Englist"/>
+		<result column="A_computer" property="A_computer"/>
+		<result column="A_Learning_experience" property="A_Learning_experience"/>
+		<result column="A_Job_resume" property="A_Job_resume"/>
+		<result column="A_state" property="A_state"/>
+		<collection property="A_postss" javaType="PositionEntity" resultMap="posiMap" />
+	</resultMap>
+	<!-- 职位表 -->
+	<resultMap type="com.direct.entity.PositionEntity" id="posiMap">
+		<id	column="PId" property="pId"/>
+		<result column="PName" property="pName"/>
+		<result column="PRemark" property="pRemark"/>
+		<result column="PZT" property="pZT"/>
+		<collection property="pBId" javaType="BranchEntity" resultMap="pMap" />
+	</resultMap>
+	<!--部门表  -->
+	<resultMap type="com.direct.entity.BranchEntity" id="pMap">
+		<id	column="BId" property="bId"/>
+		<result column="BName" property="bName"/>
+		<result column="BRemark" property="bRemark"/>
+		<result column="BZT" property="bZT"/>
+	</resultMap>
+	
+	<select id="selectappPage" resultMap="Application">
+		select * from Application ap INNER  join t_position tp on ap.A_postss=tp.PId INNER join t_branch tb on tb.BId=tp.PBId 
+	</select>
+	<!-- <insert id="addapp" ></insert> -->
+	<update id="updapp" parameterType="com.direct.entity.ApplicationEntity">
+		update Application set  A_state=#{A_state} where A_id=#{A_id}
+	</update>
+	<select id="selectappById" parameterType="int" resultMap="Application">
+		select * from Application where A_id=#{eid}
+	</select>
+	<insert id="addapp" parameterType="com.direct.entity.ApplicationEntity">
+		INSERT INTO Application(A_name,A_sex,A_birthday,A_phone,A_Time,A_salary,A_present,A_natio,A_place,A_blood,A_idcate,A_marital,A_politics,A_maxeducation,A_maxdegree,A_Email,A_emIP,A_Englist,A_computer,A_Learning_experience,A_Job_resume,A_postss) VALUES (#{A_name},#{A_sex},#{A_birthday},#{A_phone},#{A_Time},#{A_salary},#{A_present},#{A_natio},#{A_place},#{A_blood},#{A_idcate},#{A_marital},#{A_politics},#{A_maxeducation},#{A_maxdegree},#{A_Email},#{A_emIP},#{A_Englist},#{A_computer},#{A_Learning_experience},#{A_Job_resume},#{A_postss.pId});
+		
+	</insert>
+</mapper>      

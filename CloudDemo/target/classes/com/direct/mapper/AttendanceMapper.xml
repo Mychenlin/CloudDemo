@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.direct.dao.AttendanceDao">
+	
+	<resultMap type="com.direct.entity.AttendanceEnity" id="AttendMap">
+		<id property="id" column="id"/><!-- 主键 -->
+		<result   property="time" column="time"/><!-- 数量 -->
+		<result   property="beginTime" column="beginTime"/><!-- 数量 -->
+		<result   property="endTime" column="endTime"/><!-- 数量 -->
+		<result   property="clockOut" column="clockOut"/><!-- 数量 -->
+		<result   property="statusId" column="statusId"/><!-- 数量 -->
+		<association property="staffId" javaType="StaffionEntity" ><!--外键字段:员工Id（外键） -->
+				<id column="sId" property="sId"/><!-- 主键 -->
+				<result column="sName" property="sName"/>
+				<result column="sIP" property="sIP"/>
+				<result column="sPassword" property="sPassword"/>
+				<result column="sSex" property="sSex"/>
+				<result column="sBirthdate" property="sBirthdate"/>
+				<result column="sBasepay" property="sBasepay"/>
+				<result column="sSocial" property="sSocial"/>
+				<result column="sEntrytime" property="sEntrytime"/>
+				<result column="sDeparturetiome" property="sDeparturetiome"/>
+				<result column="sZZ" property="sZZ"/>
+				<result column="sZT" property="sZT"/>	
+			</association>
+		
+	</resultMap>
+
+
+	<select id="selectAll" resultMap="AttendMap">
+		select * from attendance a  inner JOIN t_staffion s ON a.staffId=s.sId
+	</select>
+	<!-- 考勤查询 -->
+	<select id="query" resultMap="AttendMap" parameterType="int">
+		select * from attendance a  inner JOIN t_staffion s ON a.staffId=s.sId where  a.staffId=#{sId}
+	</select>
+	
+	<select id="selectById" resultMap="AttendMap" parameterType="String">
+		select * from attendance a  inner JOIN t_staffion s ON a.staffId=s.sId where s.sId =#{0} and time=#{1}
+	</select>
+	
+	
+	
+</mapper>

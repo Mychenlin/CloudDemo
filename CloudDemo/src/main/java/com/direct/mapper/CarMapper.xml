@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.direct.dao.ICarDao">
+	<resultMap type="CarBrand" id="Brand">
+		<id column="id" property="id"/><!-- 主键 -->
+		<result column="uniacid" property="uniacid"/><!-- 普通字段 -->
+		<result column="parent_id" property="parent_id"/><!-- 普通字段 -->
+		<result column="initials" property="initials"/><!-- 普通字段 -->
+		<result column="name" property="name"/><!-- 普通字段 -->
+		<result column="pic_url" property="pic_url"/><!-- 普通字段 -->
+		<result column="status" property="status"/><!-- 普通字段 -->
+		<result column="sort" property="sort"/><!-- 普通字段 -->
+		<result column="is_hot" property="is_hot"/><!-- 普通字段 -->
+		<result column="create_time" property="create_time"/><!-- 普通字段 -->
+	</resultMap>
+	<!-- 分页查询(使用插件) -->
+	<select id="queryCarBrand"  resultMap="Brand">
+		select * from ims_autoparts_car_brand
+		<!-- <where>
+			initials like #{op} or name like '#{op}%'
+		</where> -->
+
+	</select>
+	
+</mapper>

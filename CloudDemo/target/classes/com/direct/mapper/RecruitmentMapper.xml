@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.direct.dao.IRecruitmentDao">
+<!-- 招聘表 -->
+	<resultMap type="com.direct.entity.RecruitmentEntity" id="Recruitment">
+		<id column="reId" property="reId"/><!-- 主键 -->
+		<result column="education" property="education"/><!-- 普通字段 -->
+		<result column="start_time" property="start_time"/><!-- 普通字段 -->
+		<result column="end_time" property="end_time"/><!-- 普通字段 -->
+		<result column="salary_min" property="salarymin"/><!-- 普通字段 -->
+		<result column="salary_max" property="salary_max"/><!-- 普通字段 -->
+		<result column="sum" property="sum"/><!-- 普通字段 -->
+		<collection property="post" javaType="PositionEntity" resultMap="posiMap" />
+	</resultMap>
+	<!-- 职位表 -->
+	<resultMap type="com.direct.entity.PositionEntity" id="posiMap">
+		<id	column="PId" property="pId"/>
+		<result column="PName" property="pName"/>
+		<result column="PRemark" property="pRemark"/>
+		<result column="PZT" property="pZT"/>
+		<collection property="pBId" javaType="BranchEntity" resultMap="pMap" />
+	</resultMap>
+	<!--部门表  -->
+	<resultMap type="com.direct.entity.BranchEntity" id="pMap">
+		<id	column="BId" property="bId"/>
+		<result column="BName" property="bName"/>
+		<result column="BRemark" property="bRemark"/>
+		<result column="BZT" property="bZT"/>
+	</resultMap>
+	<!-- 分页查询(使用插件) -->
+	<select id="selectrecPage" resultMap="Recruitment">
+		select * from Recruitment er LEFT  join t_position tp on er.post_id=tp.PId LEFT join t_branch tb on tb.BId=tp.PBId
+	</select>
+	<insert id="addrec" parameterType="com.direct.entity.RecruitmentEntity">
+		INSERT INTO Recruitment(post_id,education,start_time,end_time,salary_min,salary_max,sum)  VALUES (#{post.pId}, #{education},#{start_time},#{end_time},#{salarymin},#{salary_max},#{sum});
+	</insert>
+	<update id="updrec" parameterType="com.direct.entity.RecruitmentEntity">
+		update Recruitment set post_id=#{post.pId},education=#{education},start_time=#{start_time},end_time=#{end_time},salary_min=#{salarymin},salary_max=#{salary_max},sum=#{sum} where reId=#{reId}
+	</update>
+	<delete id="delrec" parameterType="int">
+		delete from Recruitment where reId=#{eid}
+	</delete>
+	
+	<!-- 查询一条 -->
+	<select id="selectEmpById" parameterType="int" resultMap="Recruitment">
+		select * from Recruitment er LEFT  join t_position tp on er.post_id=tp.PId LEFT join t_branch tb on tb.BId=tp.PBId where reId=#{eid}
+	</select>
+	
+	<!-- 查询部门 -->
+	<select id="select" resultMap="pMap">
+		select * from t_branch
+	</select>
+	
+	<select id="selectp" resultMap="posiMap">
+		select * from t_position
+	</select>
+	
+	<!--查询职位  -->
+	<select id="selectpostById" parameterType="int" resultMap="posiMap">
+		select * from t_position where PBId=#{eid}
+	</select>
+</mapper>    

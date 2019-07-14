@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.direct.dao.IRepySMSDao">
+  	<resultMap type="ReservationSMSEntiry" id="reserMap">
+  		<id column="rId" property="rId"/><!-- 主键 -->
+		<result column="rName" property="rName"/>
+		<result column="rftime" property="rftime"/>
+		<result column="rIp" property="rIp"/>
+		<result column="rRemark" property="rRemark"/>
+  	</resultMap>
+  	
+  	<resultMap type="RepyEntity" id="RepyMap">
+  		<id column="reId" property="reId"/><!-- 主键 -->
+		<result column="rsId" property="rsId"/><!-- 普通键 -->
+		<result column="rhtime" property="rhtime"/>
+		<result column="rRemark" property="rRemark"/>
+		<association property="rrId" javaType="ReservationSMSEntiry" resultMap="reserMap"/>
+  	</resultMap>
+  	
+  	<!-- 预约分页 -->
+  	<select id="selesreservation" resultMap="reserMap">
+  		SELECT * from  t_ReservationSMS 
+  	</select>
+  	
+  	<!-- 预约添加 -->
+  	<insert id="insertrepysms" parameterType="ReservationSMSEntiry">
+  		insert into t_ReservationSMS(rName,rftime,rIp,rRemark) values (#{rName},#{rftime},#{rIp},#{rRemark})
+  	</insert>
+ 		
+  		
+  	<!-- 预约删除-->
+  	<delete id="deleterepusms" parameterType="int">
+  		delete from  t_ReservationSMS where rId=#{id}
+  	</delete>
+  	
+  	
+  	
+  	<!-- 通过Id回访查询 -->
+  	<select id="selectrepy" resultMap="RepyMap" parameterType="int">
+  		SELECT * from  t_Repy where rrId=#{0};
+  	</select>
+  	
+	<!-- 回访添加 -->
+  	<insert id="inserterpy" parameterType="RepyEntity">
+  		insert into t_Repy(rsId,rRemark,rrId,rhtime) values (#{rsId},#{rRemark},#{rrId.rId},#{rhtime})
+  	</insert>
+  	
+  		<!-- 回访删除-->
+  	<delete id="deleteerpy" parameterType="int">
+  		delete from  t_Repy where reId=#{id}
+  	</delete>
+  	
+  </mapper>

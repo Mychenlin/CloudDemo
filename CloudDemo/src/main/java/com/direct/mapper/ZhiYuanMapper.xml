@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- 意见投诉 -->
+<mapper namespace="com.direct.dao.IZhiYuanDao">
+	<resultMap type="StaffionEntity" id="StaffMap">
+  		<id column="sId" property="sId"/><!-- 主键 -->
+		<result column="sName" property="sName"/>
+		<result column="sIP" property="sIP"/>
+		<result column="sPassword" property="sPassword"/>
+		<result column="sSex" property="sSex"/>
+		<result column="sBirthdate" property="sBirthdate"/>
+		<result column="sBasepay" property="sBasepay"/>
+		<result column="sSocial" property="sSocial"/>
+		<result column="sEntrytime" property="sEntrytime"/>
+		<result column="sDeparturetiome" property="sDeparturetiome"/>
+		<result column="sZZ" property="sZZ"/>
+		<result column="sZT" property="sZT"/>
+		<association property="sPosId" javaType="PositionEntity" resultMap="positionMap"/>
+  	</resultMap>
+  	
+  	<resultMap type="PositionEntity" id="positionMap">
+  		<id column="pId" property="pId"/><!-- 主键 -->
+		<result column="pName" property="pName"/><!-- 普通键 -->
+		<result column="pRemark" property="pRemark"/>
+		<result column="pZT" property="pZT"/>
+		<association property="pBId" javaType="BranchEntity" resultMap="branchMap"/>
+  	</resultMap>
+  	
+  	<resultMap type="BranchEntity" id="branchMap">
+  		<id column="bId" property="bId"/><!-- 主键 -->
+		<result column="bName" property="bName"/><!-- 普通键 -->
+		<result column="bRemark" property="bRemark"/>
+		<result column="bZT" property="bZT"/>
+  	</resultMap>
+  	
+  	<!-- 部门分页 -->
+  	<select id="selectbra" resultMap="branchMap">
+  		SELECT * from  t_branch  where  bZT=0  
+  		<if test="bName!='' and bName!=null">
+  			AND bName LIKE CONCAT(CONCAT('%',#{bName}),'%') 
+  		</if>
+  	</select>
+  	
+  	<!-- 部门修改 -->
+  	<update id="updatebrete" parameterType="int">
+		update t_branch set bZT=1 where bId=#{id}
+  	</update>
+  	
+  	<!-- 职位分页 -->
+  	<select id="selectpos" resultMap="positionMap">
+  		SELECT * from  t_position p INNER JOIN t_branch b ON b.bId=p.pBId where pZT=0 AND bZT=1
+  		<if test="pName!='' and pName!=null">
+  			AND pName LIKE CONCAT(CONCAT('%',#{pName}),'%') 
+  		</if>
+  	</select>
+  	
+  	<!-- 职位修改 -->
+  	<update id="updatepostion" parameterType="int">
+		update t_position set pZT=1  where pId=#{id}
+  	</update>
+  	
+  	<!-- 员工分页 -->
+  	<select id="selecsta" parameterType="StaffionEntity"  resultMap="StaffMap">
+  		SELECT * from  t_staffion s  inner JOIN t_position p INNER JOIN t_branch b ON b.bId=p.pBId AND s.sPosId=p.pId where sZT=0 OR pZT=0 OR bZT=0  
+  		<if test="sName!='' and sName!=null">
+  			AND sName LIKE CONCAT(CONCAT('%',#{sName}),'%') 
+  		</if>
+  	</select>
+  	
+  	<!-- 员工修改 -->
+  	<update id="updatestaff" parameterType="StaffionEntity">
+		update t_staffion set sZT=1 where sId=#{id}
+  	</update>
+	
+
+</mapper>

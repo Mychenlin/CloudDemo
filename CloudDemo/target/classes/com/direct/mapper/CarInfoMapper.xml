@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.direct.dao.ICarInfoDao">
+	<resultMap type="CarInfo" id="info">
+		<id column="id" property="id"/><!-- 主键 -->
+		<result column="name" property="name"/><!-- 普通字段 -->
+		<result column="money" property="money"/><!-- 普通字段 -->
+		<result column="manufacturer" property="manufacturer"/><!-- 普通字段 -->
+		<result column="level" property="level"/><!-- 普通字段 -->
+		<result column="energyType" property="energyType"/><!-- 普通字段 -->
+		<result column="timeToMarket" property="timeToMarket"/><!-- 普通字段 -->
+		<result column="maximumPower" property="maximumPower"/><!-- 普通字段 -->
+		<result column="maximumTorque" property="maximumTorque"/><!-- 普通字段 -->
+		<result column="engine" property="engine"/><!-- 普通字段 -->
+		<result column="transmissionCase" property="transmissionCase"/><!-- 普通字段 -->
+		<result column="lengthWidthHeight" property="lengthWidthHeight"/><!-- 普通字段 -->
+		<result column="bodyStructure" property="bodyStructure"/><!-- 普通字段 -->
+		<result column="maximumSpeed" property="maximumSpeed"/><!-- 普通字段 -->
+		<result column="official0100kmHAccelerationS" property="official0100kmHAccelerationS"/><!-- 普通字段 -->
+		<result column="normoL0100kmHAccelerationS" property="normoL0100kmHAccelerationS"/><!-- 普通字段 -->
+		<result column="measured1000kmhBrakingM" property="measured1000kmhBrakingM"/><!-- 普通字段 -->
+		<result column="integratedFuelConsumptionOfMinistryOfIndustryAndInformat" property="integratedFuelConsumptionOfMinistryOfIndustryAndInformat"/><!-- 普通字段 -->
+		<result column="measuredFuelConsumptionL100km" property="measuredFuelConsumptionL100km"/><!-- 普通字段 -->
+		<result column="qualityAssurance" property="qualityAssurance"/><!-- 普通字段 -->
+		<result column="mainCoPilotSeatAirbag" property="mainCoPilotSeatAirbag"/><!-- 普通字段 -->
+		<result column="anteriorPosteriorLateralBalloon" property="anteriorPosteriorLateralBalloon"/><!-- 普通字段 -->
+		<result column="frontRearHeadBalloonAirCurtain" property="frontRearHeadBalloonAirCurtain"/><!-- 普通字段 -->
+		<result column="kneeAirbag" property="kneeAirbag"/><!-- 普通字段 -->
+		<result column="rearSeatBeltAirbag" property="rearSeatBeltAirbag"/><!-- 普通字段 -->
+		<result column="rearRowCentralAirbag" property="rearRowCentralAirbag"/><!-- 普通字段 -->
+		<result column="passivePedestrianProtection" property="passivePedestrianProtection"/><!-- 普通字段 -->
+		<result column="tirePressureMonitoringFunction" property="tirePressureMonitoringFunction"/><!-- 普通字段 -->
+		<result column="zeroTirePressureToContinueDriving" property="zeroTirePressureToContinueDriving"/><!-- 普通字段 -->
+		<result column="unfastenedSeatBeltReminder" property="unfastenedSeatBeltReminder"/><!-- 普通字段 -->
+		<result column="iSOFIXChildSeatInterface" property="iSOFIXChildSeatInterface"/><!-- 普通字段 -->
+		<result column="aBSAntiLockBraking" property="aBSAntiLockBraking"/><!-- 普通字段 -->
+		<result column="brakingForceDistributionEbdCbcEtc" property="brakingForceDistributionEbdCbcEtc"/><!-- 普通字段 -->
+		<result column="brakeAssistanceEbaBasBaEtc" property="brakeAssistanceEbaBasBaEtc"/><!-- 普通字段 -->
+		<result column="tractionControlAsrTcsTrcEtc" property="tractionControlAsrTcsTrcEtc"/><!-- 普通字段 -->
+		<result column="bodyStabilityControlEscEspDscEtc" property="bodyStabilityControlEscEspDscEtc"/><!-- 普通字段 -->
+		<result column="doublingAssistance" property="doublingAssistance"/><!-- 普通字段 -->
+		<result column="ldws" property="ldws"/><!-- 普通字段 -->
+		<result column="laneMaintenanceAssistanceSystem" property="laneMaintenanceAssistanceSystem"/><!-- 普通字段 -->
+		<result column="roadTrafficSignRecognition" property="roadTrafficSignRecognition"/><!-- 普通字段 -->
+		<result column="activeBrakeActiveSafetySystem" property="activeBrakeActiveSafetySystem"/><!-- 普通字段 -->
+		<result column="nightVisionSystem" property="nightVisionSystem"/><!-- 普通字段 -->
+		<result column="tipsforFatigueDriving" property="tipsforFatigueDriving"/><!-- 普通字段 -->
+		<result column="number" property="number"/><!-- 普通字段 -->
+	</resultMap>
+	<!-- 分页查询(使用插件) -->
+	<select id="queryCarInfo"  resultMap="info">
+		select * from ims_autoparts_car_info
+	</select>
+	<select id="queryCarInfoById" resultMap="info" parameterType="int">
+		select * from ims_autoparts_car_info where id=#{id}
+	</select>
+	<select id="queryCar" resultMap="info">
+		select * from ims_autoparts_car_info where name like '%奥迪A5%'
+	</select>
+</mapper>

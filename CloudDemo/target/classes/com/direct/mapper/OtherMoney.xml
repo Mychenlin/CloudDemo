@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.direct.dao.OthermoneyDao">
+  	<!-- 配置检索结果集时属性和字段的对应关系 -->
+  	<resultMap type="com.direct.entity.OtherMoney" id="othMap">
+  		<id property="oId" column="oId"/><!-- 主键字段 -->	
+  		<result property="otherType" column="otherType"/><!-- 普通字段：支出类型 -->
+  		<result property="othMoney" column="othMoney"/><!-- 支出金额 -->
+  		<result property="othtime" column="othtime"/><!-- 支出时间 -->
+  		<result property="remark" column="remark"/><!-- 备注 -->
+  		<association property="othName" javaType="StaffionEntity" ><!--外键字段:员工Id（外键） -->
+				<id column="sId" property="sId"/><!-- 主键 -->
+				<result column="sName" property="sName"/>
+				<result column="sIP" property="sIP"/>
+				<result column="sPassword" property="sPassword"/>
+				<result column="sSex" property="sSex"/>
+				<result column="sBirthdate" property="sBirthdate"/>
+				<result column="sBasepay" property="sBasepay"/>
+				<result column="sSocial" property="sSocial"/>
+				<result column="sEntrytime" property="sEntrytime"/>
+				<result column="sDeparturetiome" property="sDeparturetiome"/>
+				<result column="sZZ" property="sZZ"/>
+				<result column="sZT" property="sZT"/>	 
+			</association> 
+  	</resultMap>
+
+  	<!-- 查看其它薪资 -->
+  	<select id="queryMoney" resultMap="othMap">
+SELECT * from OtherMoney oi INNER JOIN t_staffion ti on oi.othName=ti.sId ORDER BY oId ASC  	</select>
+  	
+  	<!-- 添加其它薪资-->
+  	<insert id="insertSalary" parameterType="OtherMoney">
+  	INSERT INTO OtherMoney(otherType,othMoney,othName,othtime,remark) VALUES(#{otherType},#{othMoney},#{othName.sId},#{othtime},#{remark}); 
+  	
+  	</insert>
+  </mapper>

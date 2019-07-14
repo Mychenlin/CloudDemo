@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<!-- 意见投诉 -->
+<mapper namespace="com.direct.dao.ICompleaintsDao">
+	
+	<resultMap type="CompleaintsEntity" id="CompMap">
+		<id property="cId" column="cId"/><!-- 主键 -->
+		<result   property="cName" column="cName"/><!-- 电话 -->
+		<result   property="cIp" column="cIp"/><!-- 电话 -->
+		<result   property="cEmail" column="cEmail"/><!-- Email -->
+		<result   property="cremark" column="cremark"/><!-- 意见 -->
+	</resultMap>
+	
+	<!-- 分页查询 -->
+	<select id="selectCompleain" resultMap="CompMap">
+		SELECT * FROM Compleaints
+	</select>
+	
+	<!-- 添加申请 -->
+	<insert id="insetComplea" parameterType="CompleaintsEntity">
+		INSERT INTO Compleaints(cName,cIp,cEmail,cremark) VALUES(#{cName},#{cIp},#{cEmail},#{cremark})
+	</insert>
+	
+	
+	<!-- 后台人员添加申请 -->
+	<insert id="insertcom" parameterType="CompleaintsEntity">
+		INSERT INTO Compleaints(cName,cremark) VALUES(#{cName},#{cremark})
+	</insert>
+	
+	<!-- 删除意见 -->
+	<delete id="deleteComplea" parameterType="int">
+		DELETE FROM Compleaints WHERE cId=#{id};
+	</delete>
+</mapper>

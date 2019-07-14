@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.direct.dao.IStaffinfoDao">
+  	<resultMap type="StaffionEntity" id="StaffMap">
+  		<id column="sId" property="sId"/><!-- 主键 -->
+		<result column="sName" property="sName"/>
+		<result column="sIP" property="sIP"/>
+		<result column="sPassword" property="sPassword"/>
+		<result column="sSex" property="sSex"/>
+		<result column="sBirthdate" property="sBirthdate"/>
+		<result column="sBasepay" property="sBasepay"/>
+		<result column="sSocial" property="sSocial"/>
+		<result column="sEntrytime" property="sEntrytime"/>
+		<result column="sDeparturetiome" property="sDeparturetiome"/>
+		<result column="sZZ" property="sZZ"/>
+		<result column="sZT" property="sZT"/>
+		<association property="sPosId" javaType="PositionEntity" resultMap="positionMap"/>
+  	</resultMap>
+  	
+  	<resultMap type="PositionEntity" id="positionMap">
+  		<id column="pId" property="pId"/><!-- 主键 -->
+		<result column="pName" property="pName"/><!-- 普通键 -->
+		<result column="pRemark" property="pRemark"/>
+		<result column="pZT" property="pZT"/>
+		<association property="pBId" javaType="BranchEntity" resultMap="branchMap"/>
+  	</resultMap>
+  	
+  	<resultMap type="BranchEntity" id="branchMap">
+  		<id column="bId" property="bId"/><!-- 主键 -->
+		<result column="bName" property="bName"/><!-- 普通键 -->
+		<result column="bRemark" property="bRemark"/>
+		<result column="bZT" property="bZT"/>
+  	</resultMap>
+  	
+  	<!-- 分页 -->
+  	<select id="querpagStaff" resultMap="StaffMap">
+  		SELECT * from  t_staffion s  inner JOIN t_position p INNER JOIN t_branch b ON b.bId=p.pBId AND s.sPosId=p.pId where sZT=1 AND pZT=1 AND bZT=1  
+  		<if test="sName!='' and sName!=null">
+  			AND sName LIKE CONCAT(CONCAT('%',#{sName}),'%') 
+  		</if>
+  	</select>
+  	
+  	<!-- 添加 -->
+  	<insert id="insertStaff" parameterType="StaffionEntity">
+  		insert into t_staffion(sName,sIP,sPassword,sSex,sBirthdate,sPosId,sBasepay,sSocial,sEntrytime) values (#{sName},#{sIP},#{sPassword},#{sSex},#{sBirthdate},#{sPosId.pId},#{sBasepay},#{sSocial},#{sEntrytime})
+  	</insert>
+ 		
+  	<!-- 修改 -->
+  	<update id="updateStaff" parameterType="StaffionEntity">
+		update t_staffion set sName=#{sName},sIP=#{sIP},sPassword=#{sPassword},sSex=#{sSex},sBirthdate=#{sBirthdate},sSocial=#{sSocial},sEntrytime=#{sEntrytime} where sId=#{sId}
+  	</update>
+  		
+  	<!-- 删除-->
+  	<update id="deleteStaff" parameterType="StaffionEntity">
+  		update t_staffion set sZT=0,sDeparturetiome=#{sDeparturetiome} where sId=#{sId}
+  	</update>
+  	
+  	<!-- 通过Id查询 -->
+  	<select id="querByIdStaff" resultMap="StaffMap" parameterType="int">
+  		SELECT * from  t_staffion s  inner JOIN t_position p INNER JOIN t_branch b ON b.bId=p.pBId AND s.sPosId=p.pId where sId=#{id};
+  	</select>
+  	
+  	<!-- 通过职位Id查询员工 -->
+  	<select id="querByPIdStaffinfo" resultMap="StaffMap" parameterType="int">
+	 SELECT * from  t_staffion s  inner JOIN t_position p  ON  s.sPosId=p.pId  where p.pId=#{pId}
+  	</select>
+ 
+  	<!-- 查询 -->
+  	<select id="querStaff" resultMap="StaffMap">
+  		select * from t_staffion s  inner JOIN t_position p  ON s.sPosId=p.pId
+  	</select>
+  	<!-- 查询 2-->
+  	<select id="querStaff2" resultMap="StaffMap" parameterType="int">
+  		select * from t_staffion tsa where tsa.sId=#{sId} 
+  	</select>
+  		<!-- 查询 3-->
+  	<select id="querStaff3" resultMap="StaffMap" >
+  		select * from t_staffion 
+  	</select>
+  	<!-- 调岗-->
+  	<update id="updatestaffbyid" parameterType="StaffionEntity">
+  		update t_staffion set sPosId=#{sPosId.pId} where sId=#{sId}
+  	</update>
+  	
+  	<select id="query" resultMap="StaffMap" parameterType="int">
+  	select * from t_staffion s where s.sId=#{sId}
+  	</select>
+  	<select id="queryMony" resultMap="StaffMap">
+  	SELECT * from t_staffion ts INNER JOIN t_position tp on ts.sPosId=tp.pId
+
+  	</select>
+  </mapper>

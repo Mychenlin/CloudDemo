@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/common.css" rel="stylesheet"  type="text/css" />
+<link href="css/style.css" rel="stylesheet" type="text/css" />
+<Link href="css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<script src="js/jquery.min.1.8.2.js" type="text/javascript"></script>
+<script src="js/jquery.SuperSlide.2.1.1.js" type="text/javascript"></script>
+<script src="js/common_js.js" type="text/javascript"></script>
+<script src="js/footer.js" type="text/javascript"></script>
+<script src="js/layer/layer.js" type="text/javascript"></script>
+<title>付款成功页</title>
+</head>
+
+<body>
+<!--顶部样式-->
+
+<!--成功-->
+  <div class="pages_style">
+  <div class="page clearfix">
+   <div class="success_style">
+     <div class="success_img"><img src="images/success.png" /></div>
+     <h2>您已成功预约车辆试驾服务，请到店服务！</h2>
+     <h3>网站默认<b id="sec" class="color2">6</b>秒后返回首页</h3>
+     <div class="success_btn_style"><a href="index.html" class="btn btn_red radius">网站首页</a><a href="用户中心.html" class="btn btn_red radius">用户中心</a></div>
+   </div>
+ </div>
+</div>
+<!--优势-->
+<div class="Advantage_style">
+ <div class="footerbox">
+  <ul class="clearfix">
+   <li class="clearfix ensure_name">
+    <div class="left_icon"><img src="images/icon_img_17.png" /></div>
+    <div class="right_content">
+     <h3>全程购物安全保障</h3>
+     <h4>用户消费，资金安全</h4>
+    </div>
+   </li>
+    <li class="clearfix ensure_name">
+    <div class="left_icon"><img src="images/icon_img_07.png" /></div>
+    <div class="right_content">
+     <h3>专业汽车销售平台</h3>
+     <h4>实体汽车销售企业</h4>
+    </div>
+   </li>
+    <li class="clearfix ensure_name">
+    <div class="left_icon"><img src="images/icon_img_09.png" /></div>
+    <div class="right_content">
+     <h3>获得相关认证授权</h3>
+     <h4>保险,汽车销售许可</h4>
+    </div>
+   </li>
+    <li class="clearfix ensure_name">
+    <div class="left_icon"><img src="images/icon_img_11.png" /></div>
+    <div class="right_content">
+     <h3>24小时服务热线</h3>
+     <h4>有问题实时沟通联系</h4>
+    </div>
+   </li>
+  </ul>
+ </div>
+</div>
+<!--底部样式-->
+<div class="footer">
+ <div class="footerbox clearfix" >
+  <div class="server_box clearfix">
+   <dl>
+    <dt>关于我们</dt>
+    <dd><a href="#">网站介绍</a></dd>
+    <dd><a href="#">汽车销售</a></dd>
+    <dd><a href="#">官方微信</a></dd>
+    <dd><a href="#">联系我们</a></dd>
+    <dd><a href="#">名称</a></dd>
+   </dl>
+   <dl>
+    <dt>服务承诺</dt>
+    <dd><a href="#">免手续费</a></dd>
+    <dd><a href="#">超长质保</a></dd>
+    <dd><a href="#">协助服务</a></dd>
+
+   </dl><dl>
+    <dt>支付方式</dt>
+    <dd><a href="#">支付宝</a></dd>
+    <dd><a href="#">微信支付</a></dd>
+    <dd><a href="#">银联支付</a></dd>
+    <dd><a href="#">支付步骤</a></dd>
+   </dl>
+  </div>
+  <div class="weixin_style">
+   <div class="sys_style"><img src="images/waixin.png"  width="100px"/><h5>微信公众号</h5></div>
+    <div class="sys_style"><img src="images/waixin.png"  width="100px"/><h5>微信公众号</h5></div>
+  </div> 
+  <div class="footer_phone"><img src="images/phone.png" /></div> 
+ </div>
+ <div class="Copyright">
+ <div class="footerbox">
+ 保险业务经营许可证：2609570xxxx0800 xxxxxxxxxx有限公司：440301105759096 粤ICP备1xxxxxxxx号<br /> Copyright ©2006-2017 汽车销售汽车服务平台版权所有
+ </div> 
+ </div>
+</div>
+</body>
+</html>
+<script>	
+	$(function () {            
+	   setTimeout("lazyGo();", 1000);
+	});
+function lazyGo() {
+		var sec = $("#sec").text();
+		$("#sec").text(--sec);
+		if (sec > 0)
+			setTimeout("lazyGo();", 1000);
+		else
+			window.location.href = "index.html";
+	}
+	
+</script>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper namespace="com.direct.dao.ICustomerDao">
+    <resultMap type="com.direct.entity.CustomerEntity" id="CustomerMap">
+		<id	column="C_Id" property="C_Id"/>
+		<result column="C_name" property="C_name"/>
+		<result column="C_sex" property="C_sex"/>
+		<result column="C_age" property="C_age"/>
+		<result column="C_place" property="C_place"/>
+		<result column="C_phone" property="C_phone"/>
+		<result column="C_Models" property="C_Models"/>
+		<result column="C_Email" property="C_Email"/>
+		<result column="C_emIP" property="C_emIP"/>
+		<result column="C_Balance" property="C_Balance"/>
+	</resultMap>
+	<select id="selectcusPage" resultMap="CustomerMap">
+		select * from Customer
+	</select>
+	<update id="updcust" parameterType="com.direct.entity.CustomerEntity">
+		update Customer set  C_name=#{C_name},C_sex=#{C_sex},C_age=#{C_age},C_place=#{C_place},C_phone=#{C_phone},C_Models=#{C_Models},C_Email=#{C_Email},C_emIP=#{C_emIP},C_Balance=C_Balance+#{C_Balance} where C_Id=#{C_Id}
+	</update>
+	<select id="selectcusById" parameterType="com.direct.entity.CustomerEntity">
+		select * from Customer where C_Id=#{C_Id}
+	</select>
+	<insert id="addcus" parameterType="com.direct.entity.CustomerEntity">
+		INSERT INTO Customer(C_name,C_sex,C_age,C_place,C_phone,C_Models,C_Email,C_emIP)  VALUES (#{C_name}, #{C_sex},#{C_age},#{C_place},#{C_phone},#{C_Models},#{C_Email},#{C_emIP});
+	</insert>
+	<delete id="delcus" parameterType="int">
+		delete from Customer where C_Id=#{eid}
+	</delete>
+	
+	
+	<select id="select"  resultMap="CustomerMap">
+		select * from Customer where C_name=#{C_name}
+	</select>
+	</mapper>  
